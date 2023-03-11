@@ -3,10 +3,10 @@
 lang=de # de->en
 pass=3 # Number of time we pass the model
 alpha=5 # Alpha value
-use_id=${1} # whether or not ID is being used 1 is used 0 is not
+use_id=${1} # whether or not ID is being used true is used false is not
 SAVE_DIR=./models/${lang}-${pass}-${alpha}-${use_id}/
 echo "use_id is $use_id."
-if [[$use_id ]]
+if [[$use_id == "true"]]
 then
   echo "Training with Intra-Distillation."
   fairseq-train ./data/data-bin-${lang}/ --arch transformer_iwslt_de_en --task translation_intra_distillation \
