@@ -22,8 +22,7 @@ then
 else
   echo "Training without Intra-Distillation"
   fairseq-train ./data/data-bin-${lang}/ --arch transformer_iwslt_de_en --task translation \
-  --alpha ${alpha}  --adaptive-alpha 1 --max-updates-train 50000 --max-update 50000 --num-iter ${pass} \
-  --temperature-q 10 --temperature-p 5  \
+  --max-update 50000 \
   --criterion label_smoothed_cross_entropy --label-smoothing 0.1 --optimizer adam --adam-eps 1e-06 --adam-betas '(0.9, 0.98)' \
   --lr-scheduler inverse_sqrt --lr 0.0005 --warmup-updates 8000  --dropout 0.3 --attention-dropout 0.1 \
   --weight-decay 0.0001 --max-tokens 4096 --update-freq 1 --keep-interval-updates 1 --patience 40 \
