@@ -18,7 +18,9 @@ bash scripts/preprocess_iwslt14.sh
 ## Train
 To train the model, run:
 ```
-bash scripts/train.sh
+bash scripts/train.sh true # with Intra-distillation
+# or
+bash scripts/train.sh false # without Intra-distillation
 ```
 ## Evaluate
 To evaluate the model on the test set, run:
