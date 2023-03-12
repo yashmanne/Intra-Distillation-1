@@ -252,7 +252,7 @@ class Translation_Intra_Distillation_KD(TranslationTask):
         super().__init__(cfg, src_dict, tgt_dict)
 
         self.teacher = checkpoint_utils.load_model_ensemble(
-            ['./models/de-3-5'],
+            ['./models/de-3-5/checkpoint_best.pt'],
             task="translation_intra_distillation"
         )
 
