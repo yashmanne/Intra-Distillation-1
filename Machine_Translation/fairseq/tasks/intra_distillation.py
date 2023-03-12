@@ -253,10 +253,13 @@ class Translation_Intra_Distillation_KD(TranslationTask):
         # using task = translation_intra_distillation_KD instead of translation_intra_distillation
         # but it should be fine? cuz no model functions are being called that are different.
         # task = tasks.setup_task(cfg.task) #tasks.setup_task("translation_intra_distillation")
-        self.teacher, _ = checkpoint_utils.load_model_ensemble(
+        self.teachers, _ = checkpoint_utils.load_model_ensemble(
             ['./models/de-3-5/checkpoint_best.pt'],
             # task=task #Translation_Intra_Distillation# "translation_intra_distillation"
         )
+        logger.debug(self.teachers)
+        self.teacher = self.teachers[0]
+        logger.debug(self.teacher)
 
     def build_model(self, cfg):
         model = models.build_model(cfg, self)
