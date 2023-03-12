@@ -250,15 +250,11 @@ class Translation_Intra_Distillation_KD(TranslationTask):
 
     def __init__(self, cfg: TranslationIntraDistillationConfig, src_dict, tgt_dict):
         super().__init__(cfg, src_dict, tgt_dict)
-        # using task = translation_intra_distillation_KD instead of translation_intra_distillation
-        # but it should be fine? cuz no model functions are being called that are different.
+
+        model_instance = Translation_Intra_Distillation(cfg, src_dict, tgt_dict)
+        model_instance.load_state_dict('./models/de-3-5/checkpoint_best.pt')
         # task = tasks.setup_task(cfg.task) #tasks.setup_task("translation_intra_distillation")
-        self.teachers, _ = checkpoint_utils.load_model_ensemble(
-            ['./models/de-3-5/checkpoint_best.pt'],
-            # task=task #Translation_Intra_Distillation# "translation_intra_distillation"
-        )
-        logger.debug(self.teachers)
-        self.teacher = self.teachers[0]
+        self.teacher = model_instance
         logger.debug(self.teacher)
 
     def build_model(self, cfg):
