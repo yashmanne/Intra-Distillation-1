@@ -252,10 +252,10 @@ class Translation_Intra_Distillation_KD(TranslationTask):
         super().__init__(cfg, src_dict, tgt_dict)
         # using task = translation_intra_distillation_KD instead of translation_intra_distillation
         # but it should be fine? cuz no model functions are being called that are different.
-        task = tasks.setup_task(cfg.task) #tasks.setup_task("translation_intra_distillation")
+        # task = tasks.setup_task(cfg.task) #tasks.setup_task("translation_intra_distillation")
         self.teacher = checkpoint_utils.load_model_ensemble(
             ['./models/de-3-5/checkpoint_best.pt'],
-            task=task #Translation_Intra_Distillation# "translation_intra_distillation"
+            # task=task #Translation_Intra_Distillation# "translation_intra_distillation"
         )
 
     def build_model(self, cfg):
