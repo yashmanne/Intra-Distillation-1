@@ -21,7 +21,7 @@ from fairseq.tasks.translation import TranslationConfig, TranslationTask
 from fairseq.tasks.translation_multi_simple_epoch import TranslationMultiSimpleEpochTask
 
 ### Yash Edit
-from fairseq import checkpoint_utils
+from fairseq import checkpoint_utils, tasks
 ### End of Yash Edit
 logger = logging.getLogger(__name__)
 
@@ -250,10 +250,10 @@ class Translation_Intra_Distillation_KD(TranslationTask):
 
     def __init__(self, cfg: TranslationIntraDistillationConfig, src_dict, tgt_dict):
         super().__init__(cfg, src_dict, tgt_dict)
-
+        task = tasks.setup_task("translation_intra_distillation")
         self.teacher = checkpoint_utils.load_model_ensemble(
             ['./models/de-3-5/checkpoint_best.pt'],
-            task=Translation_Intra_Distillation# "translation_intra_distillation"
+            task=task #Translation_Intra_Distillation# "translation_intra_distillation"
         )
 
     def build_model(self, cfg):
