@@ -231,7 +231,7 @@ class Translation_Intra_Distillation(TranslationTask):
 
 ## Yash EDIT
 @register_task("translation_intra_distillation_KD", dataclass=TranslationIntraDistillationConfig)
-class Translation_Intra_Distillation_KD(Translation_Intra_Distillation):
+class Translation_Intra_Distillation_KD(TranslationTask):
     """
     Translation task for Switch Transformer models.
     WITH teacher model for knowledge-distillation
@@ -255,6 +255,22 @@ class Translation_Intra_Distillation_KD(Translation_Intra_Distillation):
             ['./models/de-3-5'],
             task="translation_intra_distillation"
         )
+
+    def build_model(self, cfg):
+        model = models.build_model(cfg, self)
+
+        if self.cfg.eval_bleu:
+            detok_args = json.loads(self.cfg.eval_bleu_detok_args)
+            self.tokenizer = encoders.build_tokenizer(
+                Namespace(tokenizer=self.cfg.eval_bleu_detok, **detok_args)
+            )
+
+            gen_args = json.loads(self.cfg.eval_bleu_args)
+            self.sequence_generator = self.build_generator(
+                [model], Namespace(**gen_args)
+            )
+
+        return model
 
     def _get_loss(self, sample, model, criterion):
         assert hasattr(
